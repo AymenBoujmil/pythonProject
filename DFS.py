@@ -41,15 +41,25 @@ class Game:
 
 
 class DFS:
-    init_state = [1, 2, 3, 4, 5, 0,6, 7, 8]
+    init_state = [7,2,4,5,0,6,8,3,1]
     final_state = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+    def listToString(self,list1):
+
+        str1 = ""
+
+        for ele in list1:
+            str1 += str(ele)
+
+        return str1
+
     def parcours(self):
         game = Game()
         open = list()
         open.append(self.init_state)
-        closed = list()
+        closed = {}
         i=0
-        while len(open) != 0 and self.final_state not in open:
+        while len(open) != 0 and self.listToString(self.final_state) not in closed:
             temp = list(open)
 
             i=i+1
@@ -60,23 +70,27 @@ class DFS:
             #print('open :',open)
             #print('closed :',closed)
             l=open.pop(0)
-            closed.insert(0,l)
+            closed[self.listToString(l)] = '1'
+
             j=0
-            if game.up(l) not in closed:
+            if self.listToString(game.right(l)) not in closed:
+                open.insert(j, game.right(l))
+                j = j + 1
+            if self.listToString(game.up(l)) not in closed:
                 open.insert(j,game.up(l))
                 j=j+1
                 #print(game.up(l))
-            if game.down(l) not in closed:
+            if self.listToString(game.down(l)) not in closed:
                 open.insert(j,game.down(l))
                 j=j+1
 
                 #print(game.down(l))
-            if game.right(l) not in closed:
+            if self.listToString(game.right(l)) not in closed:
                 open.insert(j,game.right(l))
                 j=j+1
 
                 #print(game.right(l))
-            if game.left(l) not in closed:
+            if self.listToString(game.left(l)) not in closed:
                 open.insert(j,game.left(l))
 
 
@@ -84,11 +98,12 @@ class DFS:
 
                    # print(game.left(l))
        # print(open)
+        print(closed )
         print(i)
-        print(open )
+
 
 def main():
-   
+
     dfs = DFS()
     dfs.parcours()
 
